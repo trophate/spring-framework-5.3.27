@@ -480,7 +480,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Validation of method overrides failed", ex);
 		}
 
-		// 使用后置处理器代理bean实例
+		// 后置处理器代理bean实例, 并返回一个代理对象.
 		try {
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
@@ -570,7 +570,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				logger.trace("Eagerly caching bean '" + beanName +
 						"' to allow for resolving potential circular references");
 			}
-			// 添加单例工厂
+			// 单例工厂, 用于必要时快速创建实例. 工厂与bean一一对应.
 			addSingletonFactory(beanName,
 					// 匿名类
 					() ->
@@ -627,7 +627,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// 将bean注册为一次性的
 		// Register bean as disposable.
 		try {
-			// 将bean添加到bean工厂的一次性bean列表中, 在销毁时使用, 仅限单例.
+			// 将bean添加到bean工厂的一次性bean列表中, 在销毁时使用.
 			registerDisposableBeanIfNecessary(beanName, bean, mbd);
 		}
 		catch (BeanDefinitionValidationException ex) {

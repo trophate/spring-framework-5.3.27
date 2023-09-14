@@ -148,8 +148,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		Assert.notNull(singletonFactory, "Singleton factory must not be null");
 		synchronized (this.singletonObjects) {
 			if (!this.singletonObjects.containsKey(beanName)) {
+				// 添加单例工厂
 				this.singletonFactories.put(beanName, singletonFactory);
+				// 移除bean早期实例
 				this.earlySingletonObjects.remove(beanName);
+				// 注册到已注册实例表中
 				this.registeredSingletons.add(beanName);
 			}
 		}
@@ -171,10 +174,13 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+		// 在singletonObjects中查询(一级缓存)
 		// Quick check for existing instance without full singleton lock
 		Object singletonObject = this.singletonObjects.get(beanName);
+		// 在earlySingletonObjects中查询(二级缓存)
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			singletonObject = this.earlySingletonObjects.get(beanName);
+			// 创建bean早期实例, 并将其存入二级缓存.(三级缓存)
 			if (singletonObject == null && allowEarlyReference) {
 				synchronized (this.singletonObjects) {
 					// Consistent creation of early reference within full singleton lock

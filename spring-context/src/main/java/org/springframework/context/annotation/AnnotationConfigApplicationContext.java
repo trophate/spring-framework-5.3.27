@@ -107,6 +107,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		this();
 		// 扫描
 		scan(basePackages);
+		// 刷新
 		refresh();
 	}
 
@@ -166,14 +167,14 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * @see #refresh()
 	 */
 	@Override
-public void register(Class<?>... componentClasses) {
-	Assert.notEmpty(componentClasses, "At least one component class must be specified");
-	StartupStep registerComponentClass = this.getApplicationStartup().start("spring.context.component-classes.register")
-			.tag("classes", () -> Arrays.toString(componentClasses));
-	// 使用reader进行注册
-	this.reader.register(componentClasses);
-	registerComponentClass.end();
-}
+	public void register(Class<?>... componentClasses) {
+		Assert.notEmpty(componentClasses, "At least one component class must be specified");
+		StartupStep registerComponentClass = this.getApplicationStartup().start("spring.context.component-classes.register")
+				.tag("classes", () -> Arrays.toString(componentClasses));
+		// 使用reader进行注册
+		this.reader.register(componentClasses);
+		registerComponentClass.end();
+	}
 
 	/**
 	 * Perform a scan within the specified base packages.
@@ -188,6 +189,7 @@ public void register(Class<?>... componentClasses) {
 		Assert.notEmpty(basePackages, "At least one base package must be specified");
 		StartupStep scanPackages = this.getApplicationStartup().start("spring.context.base-packages.scan")
 				.tag("packages", () -> Arrays.toString(basePackages));
+		// 扫描
 		this.scanner.scan(basePackages);
 		scanPackages.end();
 	}

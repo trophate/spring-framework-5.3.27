@@ -156,14 +156,14 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 			Environment environment, @Nullable ResourceLoader resourceLoader) {
 
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
-		// 指定注册表
+		// 设置注册表
 		this.registry = registry;
 
 		// 注册默认拦截器, 用于拦截注解.
 		if (useDefaultFilters) {
 			registerDefaultFilters();
 		}
-		// 设置环境变量: 配置, 属性
+		// 设置环境变量, 包含: 配置, 属性.
 		setEnvironment(environment);
 		// 设置资源加载器, 用于将给定的配置文件路径解析为资源对象.
 		setResourceLoader(resourceLoader);
@@ -254,7 +254,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 		// 扫描
 		doScan(basePackages);
 
-		// 注册注解相关的后置处理器
+		// 注册所有注解相关的后置处理器
 		// Register annotation config processors, if necessary.
 		if (this.includeAnnotationConfig) {
 			AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
@@ -275,7 +275,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 		Assert.notEmpty(basePackages, "At least one base package must be specified");
 		Set<BeanDefinitionHolder> beanDefinitions = new LinkedHashSet<>();
 		for (String basePackage : basePackages) {
-			// 扫描路径下的候选类并解析为定义
+			// 扫描路径下的候选类, 解析类, 生成bean定义.
 			Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
 			for (BeanDefinition candidate : candidates) {
 
