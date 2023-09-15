@@ -570,7 +570,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				logger.trace("Eagerly caching bean '" + beanName +
 						"' to allow for resolving potential circular references");
 			}
-			// 单例工厂, 用于必要时快速创建实例. 工厂与bean一一对应.
+			// 单例工厂
 			addSingletonFactory(beanName,
 					// 匿名类
 					() ->
