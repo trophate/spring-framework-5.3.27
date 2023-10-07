@@ -1778,7 +1778,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Invocation of init method failed", ex);
 		}
 
-		// 在初始化后调用后置处理器, 自定义后置处理器也是在此处执行.
+		// 在初始化后调用后置处理器, 自定义后置处理器也是在此处执行. aop增强对象并生成代理类也是在此处执行, 实现类: AbstractAdvisorAutoProxyCreator.
 		if (mbd == null || !mbd.isSynthetic()) {
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
