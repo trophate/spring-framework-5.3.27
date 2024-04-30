@@ -890,11 +890,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		// 初始化
 		// Trigger initialization of all non-lazy singleton beans...
 		for (String beanName : beanNames) {
-			// 合并bean定义并返回RootBeanDefinition实例, RootBeanDefinition是在运行中实际使用的"统一"bean定义视图.
+			// 将父子bean定义合并并返回RootBeanDefinition对象。RootBeanDefinition是运行时的统一bean视图。
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
-			// 抽象bean/单例/懒加载
+			// 实例化条件：非抽象的单例的非懒加载的bean
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
-				// 是否是工厂bean
+				// 工厂bean
 				if (isFactoryBean(beanName)) {
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 					if (bean instanceof FactoryBean) {
@@ -910,13 +910,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 									((SmartFactoryBean<?>) factory).isEagerInit());
 						}
 						if (isEagerInit) {
-							// 获取bean实例, 如果不存在则创建.
 							getBean(beanName);
 						}
 					}
 				}
+				// 非工厂bean
 				else {
-					// 获取bean实例, 如果不存在则创建.
+					// 实例化bean
 					getBean(beanName);
 				}
 			}

@@ -1,27 +1,21 @@
 package com.test;
 
+import com.test.beans.Apple;
+import com.test.beans.Banana;
+import com.test.beans.Mango;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class TestMain {
 
 	public static void main(String[] args) {
 
-		// 创建方式a
-//		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(A.class, B.class, ...);
-		// 创建方式b
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("com.test");
+		// 指定类创建
+		AnnotationConfigApplicationContext context1 = new AnnotationConfigApplicationContext(Apple.class, Banana.class);
+		System.out.println(context1.getBean(Apple.class));
 
-		// A, B构成循环依赖
-//		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(A.class, B.class);
-
-		// order
-//		OrderTest orderTest = context.getBean(OrderTest.class);
-//		orderTest.print();
-
-		// aop
-//		Planet planet = context.getBean(Planet.class);
-//		planet.print();
-//		planet.getName();
+		// 扫描包创建
+		AnnotationConfigApplicationContext context2 = new AnnotationConfigApplicationContext("com.test.beans");
+		System.out.println(context2.getBean(Mango.class));
 	}
 
 }

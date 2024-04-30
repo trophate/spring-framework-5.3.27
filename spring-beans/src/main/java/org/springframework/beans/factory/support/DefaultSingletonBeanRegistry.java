@@ -62,19 +62,19 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/** Maximum number of suppressed exceptions to preserve. */
 	private static final int SUPPRESSED_EXCEPTIONS_LIMIT = 100;
 
-	// bean实例列表, 完全走完流程的bean实例. 一级缓存
+	// 完全实例化集合
 	/** Cache of singleton objects: bean name to bean instance. */
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
 
-	// 单例工厂, 用于快速创建bean实例, 与bean一一对应. 主要用于快速获取bean实例的代理对象. 三级缓存
+	// 单例工厂集合
 	/** Cache of singleton factories: bean name to ObjectFactory. */
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
 
-	// bean早期实例, 没有走完全部流程的bean实例. 二级缓存
+	// 早期实例集合
 	/** Cache of early singleton objects: bean name to bean instance. */
 	private final Map<String, Object> earlySingletonObjects = new ConcurrentHashMap<>(16);
 
-	// 已经实例化bean列表
+	// 已注册实例集合
 	/** Set of registered singletons, containing the bean names in registration order. */
 	private final Set<String> registeredSingletons = new LinkedHashSet<>(256);
 
@@ -147,11 +147,8 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		Assert.notNull(singletonFactory, "Singleton factory must not be null");
 		synchronized (this.singletonObjects) {
 			if (!this.singletonObjects.containsKey(beanName)) {
-				// 添加单例工厂
 				this.singletonFactories.put(beanName, singletonFactory);
-				// 移除bean早期实例
 				this.earlySingletonObjects.remove(beanName);
-				// 注册到已注册实例表中
 				this.registeredSingletons.add(beanName);
 			}
 		}
@@ -173,14 +170,14 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
-		// 在singletonObjects中查询(一级缓存)
+		// 依次从实例、早期实例集合中查找
 		// Quick check for existing instance without full singleton lock
 		Object singletonObject = this.singletonObjects.get(beanName);
-		// 在earlySingletonObjects中查询(二级缓存)
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			singletonObject = this.earlySingletonObjects.get(beanName);
-			// 创建bean早期实例, 并将其存入二级缓存.(三级缓存)
-			if (singletonObject == null && allowEarlyReference) {
+			// 如果查找失败并允许创建早期实例，则调用单例工厂创建实例。期间重新在实例、早期实例集合中查找以避免实例重复创建。
+				if (singletonObject == null && allowEarlyReference) {
+				// 加锁，保证实例创建的原子性。
 				synchronized (this.singletonObjects) {
 					// Consistent creation of early reference within full singleton lock
 					singletonObject = this.singletonObjects.get(beanName);
