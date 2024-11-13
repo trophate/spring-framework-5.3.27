@@ -482,7 +482,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Validation of method overrides failed", ex);
 		}
 
-		// 如果对象被代理则返回一个代理对象
+		// 如果对象被代理，则返回一个代理对象。
 		try {
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);

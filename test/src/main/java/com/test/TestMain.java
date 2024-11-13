@@ -10,11 +10,11 @@ public class TestMain {
 
 	public static void main(String[] args) {
 
-		// 指定类创建
+		// 通过传入的类型信息注册bean
 		AnnotationConfigApplicationContext context1 = new AnnotationConfigApplicationContext(Apple.class, Banana.class, CustomPostProcessor.class);
 		System.out.println(context1.getBean(Apple.class));
 
-		// 扫描包创建
+		// 扫描路径注册bean
 		AnnotationConfigApplicationContext context2 = new AnnotationConfigApplicationContext("com.test.beans");
 		System.out.println(context2.getBean(Mango.class));
 	}

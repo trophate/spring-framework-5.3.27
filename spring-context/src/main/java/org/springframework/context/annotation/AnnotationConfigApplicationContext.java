@@ -66,7 +66,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext() {
 		StartupStep createAnnotatedBeanDefReader = this.getApplicationStartup().start("spring.context.annotated-bean-reader.create");
-		// this——将自身作为注册表
+		// 此处是把上下文当做注册表
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		createAnnotatedBeanDefReader.end();
 		this.scanner = new ClassPathBeanDefinitionScanner(this);

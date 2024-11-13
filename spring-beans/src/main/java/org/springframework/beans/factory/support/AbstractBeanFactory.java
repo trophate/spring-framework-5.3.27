@@ -209,7 +209,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// 在缓存中检索实例
 		// Eagerly check singleton cache for manually registered singletons.
 		Object sharedInstance = getSingleton(beanName);
-		// 存在则直接返回，不存在则创建后返回。
+		// 实例存在则直接返回，不存在则创建后返回。
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {
 				if (isSingletonCurrentlyInCreation(beanName)) {

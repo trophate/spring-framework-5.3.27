@@ -892,7 +892,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		for (String beanName : beanNames) {
 			// 将父子bean定义合并并返回RootBeanDefinition对象。RootBeanDefinition是运行时的统一bean视图。
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
-			// 实例化条件：非抽象的单例的非懒加载的bean
+			// 实例化条件：非抽象的、单例的、非懒加载的bean。
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
 				// 工厂bean
 				if (isFactoryBean(beanName)) {
