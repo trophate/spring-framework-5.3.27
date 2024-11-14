@@ -1,9 +1,9 @@
-package com.test;
+package com.test.beans;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.stereotype.Component;
 
-@Component
+@Configuration
 @EnableAspectJAutoProxy
 public class Config {
 

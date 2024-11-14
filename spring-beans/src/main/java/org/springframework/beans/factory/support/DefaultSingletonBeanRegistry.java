@@ -175,7 +175,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		Object singletonObject = this.singletonObjects.get(beanName);
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			singletonObject = this.earlySingletonObjects.get(beanName);
-			// 如果查找失败并允许创建早期实例，则调用单例工厂创建实例。期间重新在实例、早期实例集合中查找以避免实例重复创建。
+			    // 如果查找失败并允许创建早期实例，则调用单例工厂创建实例。期间重新在实例、早期实例集合中查找以避免实例重复创建。
 				if (singletonObject == null && allowEarlyReference) {
 				// 加锁，保证实例创建的原子性。
 				synchronized (this.singletonObjects) {
